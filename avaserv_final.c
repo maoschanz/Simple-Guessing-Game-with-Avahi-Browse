@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <ctype.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -30,7 +32,6 @@ int get_random_number(int mini, int maxi,int warez) {
 // ASSUMPTION: The string contained in *kuchi has an instance of "guess" in some form or mixture
 int get_number(char * kuchi,int i, int *f) {
 	int NI;
-	char c;
 
 	// traverse the pointer the whole length of guess, we're only interested in what comes after guess
 	kuchi = kuchi + strlen("guess");
@@ -80,7 +81,6 @@ int get_number(char * kuchi,int i, int *f) {
 // handles the client connection and closes it accordingly
 void handle_client(int i, int port__NO, fd_set * masta) {
 	char w[500],str[100];
-	int set_flag = 0;
 	char * cc = "guess";
 
 	// stup_flug SET
@@ -187,7 +187,6 @@ static DNSServiceErrorType Run_Avahi_Server() {
 	DNSServiceErrorType err;
 	DNSServiceRef serviceRef;
 
-	char str[100];
 	int listn_file_descp;
 	int on = 1;
 
@@ -230,8 +229,7 @@ static DNSServiceErrorType Run_Avahi_Server() {
 	);
 
 	int dns_file_descp = DNSServiceRefSockFD(serviceRef);
-	int nfds = dns_file_descp + 1;
-	int new, max_file_descp;
+	int max_file_descp;
 
 	fd_set fdset, masta;
 
