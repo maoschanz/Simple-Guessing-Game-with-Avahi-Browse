@@ -266,13 +266,13 @@ static DNSServiceErrorType Run_Avahi_Server() {
 	// file descp. used for accept
 	int commu_file_descp = 0;
 
-	// infinite loop
+	// infinite loop (until the connection fails?)
 	while(1) {
 		memcpy(&fdset, &masta, sizeof(masta));
 		int ret = select(max_file_descp+1, &fdset, (fd_set*)NULL, (fd_set*)NULL, 0);
 
-		for(int i = 0; i <=max_file_descp && ret > 0; i++ ) {
-			if( FD_ISSET(i, &fdset) ) {
+		for(int i = 0; i <= max_file_descp && ret > 0; i++) {
+			if(FD_ISSET(i, &fdset)) {
 				ret--;
 
 				// handle zeroconf
@@ -304,7 +304,8 @@ static DNSServiceErrorType Run_Avahi_Server() {
 						max_file_descp = commu_file_descp;
 					}
 				} else {
-					// a client fd, play game with client (single client server so one user at a time)
+					// a client fd, play game with client (single client server
+					// so one user at a time)
 					handle_client(i, servaddr.sin_port, &masta);
 				}
 
